@@ -508,7 +508,7 @@ var uniquePackageName = make(map[*descriptor.FileDescriptorProto]string)
 // value is the name that appears in the generated code.
 var pkgNamesInUse = make(map[string]bool)
 
-// Create and remember a guaranteed unique package name for this file descriptor.
+// RegisterUniquePackageName: Create and remember a guaranteed unique package name for this file descriptor.
 // Pkg is the candidate name.  If f is nil, it's a builtin package like "proto" and
 // has no file descriptor.
 func RegisterUniquePackageName(pkg string, f *FileDescriptor) string {
@@ -860,7 +860,7 @@ func (g *Generator) BuildTypeNameMap() {
 	}
 }
 
-// ObjectNamed, given a fully-qualified input type name as it appears in the input data,
+// ObjectNamed: ObjectNamed, given a fully-qualified input type name as it appears in the input data,
 // returns the descriptor for the message or enum with that name.
 func (g *Generator) ObjectNamed(typeName string) Object {
 	o, ok := g.typeNameToObject[typeName]

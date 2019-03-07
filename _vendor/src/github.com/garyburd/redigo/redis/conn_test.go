@@ -401,7 +401,7 @@ func TestReadDeadline(t *testing.T) {
 	}
 }
 
-// Connect to local instance of Redis running on the default port.
+// ExampleDial: Connect to local instance of Redis running on the default port.
 func ExampleDial(x int) {
 	c, err := redis.Dial("tcp", ":6379")
 	if err != nil {

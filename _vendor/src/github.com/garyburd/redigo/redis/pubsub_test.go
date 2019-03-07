@@ -33,7 +33,7 @@ func publish(channel, value interface{}) {
 	c.Do("PUBLISH", channel, value)
 }
 
-// Applications can receive pushed messages from one goroutine and manage subscriptions from another goroutine.
+// ExamplePubSubConn: Applications can receive pushed messages from one goroutine and manage subscriptions from another goroutine.
 func ExamplePubSubConn() {
 	c, err := dial()
 	if err != nil {

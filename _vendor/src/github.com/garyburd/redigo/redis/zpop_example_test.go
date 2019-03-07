@@ -69,7 +69,7 @@ var zpopScript = redis.NewScript(1, `
     return r
 `)
 
-// This example implements ZPOP as described at
+// Example_zpop: This example implements ZPOP as described at
 // http://redis.io/topics/transactions using WATCH/MULTI/EXEC and scripting.
 func Example_zpop() {
 	c, err := dial()

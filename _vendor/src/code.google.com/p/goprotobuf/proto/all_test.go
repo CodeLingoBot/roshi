@@ -324,7 +324,7 @@ func overify(t *testing.T, pb *GoTest, expected string) {
 	}
 }
 
-// Simple tests for numeric encode/decode primitives (varint, etc.)
+// TestNumericPrimitives: Simple tests for numeric encode/decode primitives (varint, etc.)
 func TestNumericPrimitives(t *testing.T) {
 	for i := uint64(0); i < 1e6; i += 111 {
 		o := old()
@@ -413,7 +413,7 @@ func (f fakeMarshaler) ProtoMessage() {}
 
 func (f fakeMarshaler) Reset() {}
 
-// Simple tests for proto messages that implement the Marshaler interface.
+// TestMarshalerEncoding: Simple tests for proto messages that implement the Marshaler interface.
 func TestMarshalerEncoding(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -452,7 +452,7 @@ func TestMarshalerEncoding(t *testing.T) {
 	}
 }
 
-// Simple tests for bytes
+// TestBytesPrimitives: Simple tests for bytes
 func TestBytesPrimitives(t *testing.T) {
 	o := old()
 	bytes := []byte{'n', 'o', 'w', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 't', 'i', 'm', 'e'}
@@ -466,7 +466,7 @@ func TestBytesPrimitives(t *testing.T) {
 	equalbytes(bytes, decb, t)
 }
 
-// Simple tests for strings
+// TestStringPrimitives: Simple tests for strings
 func TestStringPrimitives(t *testing.T) {
 	o := old()
 	s := "now is the time"
@@ -482,7 +482,7 @@ func TestStringPrimitives(t *testing.T) {
 	}
 }
 
-// Do we catch the "required bit not set" case?
+// TestRequiredBit: Do we catch the "required bit not set" case?
 func TestRequiredBit(t *testing.T) {
 	o := old()
 	pb := new(GoTest)
@@ -540,7 +540,7 @@ func checkInitialized(pb *GoTest, t *testing.T) {
 	}
 }
 
-// Does Reset() reset?
+// TestReset Does Reset() reset?
 func TestReset(t *testing.T) {
 	pb := initGoTest(true)
 	// muck with some values
@@ -561,7 +561,7 @@ func TestReset(t *testing.T) {
 	checkInitialized(pb, t)
 }
 
-// All required fields set, no defaults provided.
+// TestEncodeDecode1: All required fields set, no defaults provided.
 func TestEncodeDecode1(t *testing.T) {
 	pb := initGoTest(false)
 	overify(t, pb,
@@ -585,7 +585,7 @@ func TestEncodeDecode1(t *testing.T) {
 			"b8067f") // field 103, encoding 0, 0x7f zigzag64
 }
 
-// All required fields set, defaults provided.
+// TestEncodeDecode2: All required fields set, defaults provided.
 func TestEncodeDecode2(t *testing.T) {
 	pb := initGoTest(true)
 	overify(t, pb,
@@ -623,7 +623,7 @@ func TestEncodeDecode2(t *testing.T) {
 
 }
 
-// All default fields set to their default value by hand
+// TestEncodeDecode3: All default fields set to their default value by hand
 func TestEncodeDecode3(t *testing.T) {
 	pb := initGoTest(false)
 	pb.F_BoolDefaulted = Bool(true)
@@ -675,7 +675,7 @@ func TestEncodeDecode3(t *testing.T) {
 
 }
 
-// All required fields set, defaults provided, all non-defaulted optional fields have values.
+// TestEncodeDecode4: All required fields set, defaults provided, all non-defaulted optional fields have values.
 func TestEncodeDecode4(t *testing.T) {
 	pb := initGoTest(true)
 	pb.Table = String("hello")
@@ -750,7 +750,7 @@ func TestEncodeDecode4(t *testing.T) {
 
 }
 
-// All required fields set, defaults provided, all repeated fields given two values.
+// TestEncodeDecode5: All required fields set, defaults provided, all repeated fields given two values.
 func TestEncodeDecode5(t *testing.T) {
 	pb := initGoTest(true)
 	pb.RepeatedField = []*GoTestField{initGoTestField(), initGoTestField()}
@@ -838,7 +838,7 @@ func TestEncodeDecode5(t *testing.T) {
 
 }
 
-// All required fields set, all packed repeated fields given two values.
+// TestEncodeDecode6: All required fields set, all packed repeated fields given two values.
 func TestEncodeDecode6(t *testing.T) {
 	pb := initGoTest(false)
 	pb.F_BoolRepeatedPacked = []bool{false, true}
@@ -893,7 +893,7 @@ func TestEncodeDecode6(t *testing.T) {
 			"80017f") // value 64, value -64
 }
 
-// Test that we can encode empty bytes fields.
+// TestEncodeDecodeBytes1 tests that we can encode empty bytes fields.
 func TestEncodeDecodeBytes1(t *testing.T) {
 	pb := initGoTest(false)
 
@@ -923,7 +923,7 @@ func TestEncodeDecodeBytes1(t *testing.T) {
 	}
 }
 
-// Test that we encode nil-valued fields of a repeated bytes field correctly.
+// TestEncodeDecodeBytes2 tests that we encode nil-valued fields of a repeated bytes field correctly.
 // Since entries in a repeated field cannot be nil, nil must mean empty value.
 func TestEncodeDecodeBytes2(t *testing.T) {
 	pb := initGoTest(false)
@@ -946,7 +946,7 @@ func TestEncodeDecodeBytes2(t *testing.T) {
 	}
 }
 
-// All required fields set, defaults provided, all repeated fields given two values.
+// TestSkippingUnrecognizedFields: All required fields set, defaults provided, all repeated fields given two values.
 func TestSkippingUnrecognizedFields(t *testing.T) {
 	o := old()
 	pb := initGoTestField()
@@ -998,7 +998,7 @@ func TestSkippingUnrecognizedFields(t *testing.T) {
 	}
 }
 
-// Check that unrecognized fields of a submessage are preserved.
+// TestSubmessageUnrecognizedFields checks that unrecognized fields of a submessage are preserved.
 func TestSubmessageUnrecognizedFields(t *testing.T) {
 	nm := &NewMessage{
 		Nested: &NewMessage_Nested{
@@ -1047,7 +1047,7 @@ func TestSubmessageUnrecognizedFields(t *testing.T) {
 	}
 }
 
-// Check that an int32 field can be upgraded to an int64 field.
+// TestNegativeInt32 checks that an int32 field can be upgraded to an int64 field.
 func TestNegativeInt32(t *testing.T) {
 	om := &OldMessage{
 		Num: Int32(-1),
@@ -1076,7 +1076,7 @@ func TestNegativeInt32(t *testing.T) {
 	}
 }
 
-// Check that we can grow an array (repeated field) to have many elements.
+// TestBigRepeated checks that we can grow an array (repeated field) to have many elements.
 // This test doesn't depend only on our encoding; for variety, it makes sure
 // we create, encode, and decode the correct contents explicitly.  It's therefore
 // a bit messier.
@@ -1192,7 +1192,7 @@ func TestBigRepeated(t *testing.T) {
 	}
 }
 
-// Verify we give a useful message when decoding to the wrong structure type.
+// TestTypeMismatch: Verify we give a useful message when decoding to the wrong structure type.
 func TestTypeMismatch(t *testing.T) {
 	pb1 := initGoTest(true)
 
@@ -1257,7 +1257,7 @@ func TestProto1RepeatedGroup(t *testing.T) {
 	}
 }
 
-// Test that enums work.  Checks for a bug introduced by making enums
+// TestEnum tests that enums work.  Checks for a bug introduced by making enums
 // named types instead of int32: newInt32FromUint64 would crash with
 // a type mismatch in reflect.PointTo.
 func TestEnum(t *testing.T) {
@@ -1276,14 +1276,14 @@ func TestEnum(t *testing.T) {
 	}
 }
 
-// Enum types have String methods. Check that enum fields can be printed.
+// TestPrintingNilEnumFields: Enum types have String methods. Check that enum fields can be printed.
 // We don't care what the value actually is, just as long as it doesn't crash.
 func TestPrintingNilEnumFields(t *testing.T) {
 	pb := new(GoEnum)
 	fmt.Sprintf("%+v", pb)
 }
 
-// Verify that absent required fields cause Marshal/Unmarshal to return errors.
+// TestRequiredFieldEnforcement: Verify that absent required fields cause Marshal/Unmarshal to return errors.
 func TestRequiredFieldEnforcement(t *testing.T) {
 	pb := new(GoTestField)
 	_, err := Marshal(pb)
@@ -1345,7 +1345,7 @@ func (*NMMessage) Reset()         {}
 func (*NMMessage) String() string { return "" }
 func (*NMMessage) ProtoMessage()  {}
 
-// Verify a type that uses the Marshaler interface, but has a nil pointer.
+// TestNilMarshaler: Verify a type that uses the Marshaler interface, but has a nil pointer.
 func TestNilMarshaler(t *testing.T) {
 	// Try a struct with a Marshaler field that is nil.
 	// It should be directly marshable.

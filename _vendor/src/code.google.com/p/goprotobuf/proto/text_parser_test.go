@@ -423,7 +423,7 @@ func TestUnmarshalTextCustomMessage(t *testing.T) {
 	}
 }
 
-// Regression test; this caused a panic.
+// TestRepeatedEnum: Regression test; this caused a panic.
 func TestRepeatedEnum(t *testing.T) {
 	pb := new(RepeatedEnum)
 	if err := UnmarshalText("color: RED", pb); err != nil {

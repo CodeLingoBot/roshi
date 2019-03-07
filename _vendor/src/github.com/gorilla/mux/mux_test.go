@@ -668,7 +668,7 @@ func testRoute(t *testing.T, test routeTest) {
 	}
 }
 
-// Tests that the context is cleared or not cleared properly depending on
+// TestKeepContext tests that the context is cleared or not cleared properly depending on
 // the configuration of the router
 func TestKeepContext(t *testing.T) {
 	func1 := func(w http.ResponseWriter, r *http.Request) {}

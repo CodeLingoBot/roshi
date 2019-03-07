@@ -110,7 +110,7 @@ type clock struct {
 	Provider instantProvider
 }
 
-// Emit the current instant.
+// Now: Emit the current instant.
 func (t *clock) Now() time.Time {
 	if t.Provider == nil {
 		return time.Now()
